@@ -1,1 +1,0 @@
-git commit --amend --author="Neeraj Negi <neerajnegi108333@gmail.com>" --no-edit
