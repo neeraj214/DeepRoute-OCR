@@ -80,12 +80,33 @@
 ```
 
 ## Tech Stack
-- Frontend: React.js, Tailwind CSS, Vite
+- Frontend: React.js, Tailwind CSS, Vite, TypeScript
 - Backend: Python, FastAPI
 - AI/ML: OpenCV, EasyOCR, Tesseract (fallback), langdetect
+- Evaluation: Custom CER/WER metrics (Levenshtein), pytest
 - NLP: Lightweight regex heuristics; plug‑and‑play for spaCy/NLTK
 - Export: reportlab (searchable PDF)
 - Storage: Disk outputs; optional SQLite expansion
+
+## ML Evaluation System
+The project includes a comprehensive evaluation pipeline to measure OCR accuracy.
+
+### Metrics
+- **CER (Character Error Rate)**: `(S + D + I) / N` where S=substitutions, D=deletions, I=insertions, N=total characters.
+- **WER (Word Error Rate)**: Similar to CER but operates on word tokens.
+
+### Running Evaluation
+1. **Prepare Dataset**:
+   - Place images in `datasets/ocr_eval/images/`
+   - Place corresponding ground truth text files in `datasets/ocr_eval/labels/` (filename must match image, e.g., `doc1.png` -> `doc1.txt`)
+2. **Run CLI Tool**:
+   ```bash
+   python scripts/evaluate_ocr.py --dataset datasets/ocr_eval --output results.json
+   ```
+3. **Run Unit Tests**:
+   ```bash
+   pytest
+   ```
 
 ## Folder Structure
 ```
@@ -93,37 +114,39 @@ DocVision-AI-OCR-SaaS/
 ├─ README.md
 ├─ requirements.txt
 ├─ .gitignore
+├─ datasets/
+│  └─ ocr_eval/
+│     ├─ images/
+│     └─ labels/
+├─ scripts/
+│  ├─ evaluate_ocr.py
+│  └─ create_sample_dataset.py
 ├─ backend/
 │  └─ app/
 │     ├─ main.py
 │     ├─ core/
-│     │  └─ config.py
 │     ├─ api/
 │     │  └─ routes.py
+│     ├─ ml/
+│     │  ├─ metrics.py
+│     │  ├─ dataset_loader.py
+│     │  └─ evaluate.py
 │     ├─ schemas/
-│     │  └─ ocr.py
 │     ├─ services/
-│     │  ├─ preprocessing.py
-│     │  ├─ postprocessing.py
-│     │  ├─ ocr_pipeline.py
-│     │  └─ file_utils.py
 │     ├─ utils/
-│     │  └─ pdf_utils.py
 │     ├─ output/            (runtime)
 │     └─ tmp/               (runtime)
 ├─ frontend/
 │  ├─ package.json
-│  ├─ vite.config.js
-│  ├─ tailwind.config.js
-│  ├─ postcss.config.js
+│  ├─ vite.config.ts
 │  ├─ index.html
 │  └─ src/
-│     ├─ main.jsx
-│     ├─ styles.css
-│     ├─ App.jsx
-│     └─ components/
-│        ├─ UploadForm.jsx
-│        └─ ResultViewer.jsx
+│     ├─ main.tsx
+│     ├─ App.tsx
+│     └─ pages/
+│        ├─ Home/
+│        ├─ Upload/
+│        └─ Results/
 └─ docs/
    └─ (add design notes as needed)
 ```
@@ -139,6 +162,7 @@ DocVision-AI-OCR-SaaS/
 ## Installation & Setup
 - ⚙️ Backend
   - Python 3.10+
+  - Install Tesseract OCR engine (required for fallback): https://github.com/UB-Mannheim/tesseract/wiki
   - Install deps: `pip install -r requirements.txt`
   - Run: `uvicorn backend.app.main:app --reload --port 8000`
 - 🎨 Frontend
