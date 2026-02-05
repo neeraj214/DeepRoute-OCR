@@ -16,3 +16,7 @@ ruff
 mypy
 pytest
 pydantic-settings
+pytest
+tabulate
+langdetect
+reportlab
