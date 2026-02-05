@@ -4,8 +4,10 @@ from ..services.file_utils import save_upload_file
 from ..services.ocr_pipeline import process_image
 from ..schemas.ocr import OCRResponse, OCRV1Response
 from ..services.ocr_service import run_ocr
+from ..ml.evaluate import evaluate_dataset
 from ..core.config import settings
 import time
+import os
 
 router = APIRouter()
 
@@ -46,3 +48,22 @@ async def ocr_v1(file: UploadFile = File(...)):
         return JSONResponse(content=result)
     except Exception:
         return JSONResponse(status_code=500, content={"status": "error", "error": {"code": "ocr_failed", "message": "OCR processing failed"}})
+
+
+@router.get("/ml/evaluate")
+def evaluate_model():
+    # Assume dataset is at project root / datasets / ocr_eval
+    # We need to resolve the path relative to the running application
+    cwd = os.getcwd()
+    dataset_path = os.path.join(cwd, "datasets", "ocr_eval")
+    
+    if not os.path.exists(dataset_path):
+        # Fallback for Docker or different CWD
+        dataset_path = "/app/datasets/ocr_eval"
+        
+    if not os.path.exists(dataset_path):
+         return JSONResponse(status_code=404, content={"error": "Dataset not found", "path": dataset_path})
+    
+    results = evaluate_dataset(dataset_path)
+    return JSONResponse(content=results)
+
