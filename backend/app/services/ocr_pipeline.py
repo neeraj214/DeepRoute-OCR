@@ -36,13 +36,18 @@ def _tesseract_text(img: np.ndarray, lang: str):
     return text, conf
 
 
-def process_image(path: str, lang_hint: str):
+def process_image(path: str, lang_hint: str = None):
     img = _read_image(path)
     pre = preprocess(img)
+    
+    # Use default language if no hint provided
+    ocr_lang = lang_hint if lang_hint else settings.default_lang
+    
     try:
-        text, conf = _easyocr_text(pre, lang_hint)
+        text, conf = _easyocr_text(pre, ocr_lang)
     except Exception:
-        text, conf = _tesseract_text(pre, lang_hint)
+        text, conf = _tesseract_text(pre, ocr_lang)
+    
     if not lang_hint:
         try:
             language = detect(text) if text.strip() else settings.default_lang
