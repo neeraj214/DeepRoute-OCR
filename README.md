@@ -122,6 +122,41 @@ Output:
 }
 ```
 
+## 🧠 Phase 3A: Intelligent OCR Routing
+
+The system now features an **Intelligent Routing Engine** that automatically selects the best OCR model based on document type.
+
+### 🔄 Routing Logic
+| Document Type | Selected Engine | Reason |
+|--------------|----------------|--------|
+| **Invoice** | TrOCR | Better at dense tables & layouts |
+| **Receipt** | TrOCR | Handles thermal text better |
+| **Note** | EasyOCR | Robust for handwritten/messy text |
+| **Form** | Hybrid | Structural cleanup + EasyOCR |
+| *Low Confidence* | EasyOCR | Fallback for safety |
+
+### 🚀 Usage
+**New Endpoint**: `POST /api/ocr/routed`
+- **Input**: Image file
+- **Output**:
+  ```json
+  {
+    "routing_info": {
+      "document_type": "invoice",
+      "ocr_engine": "trocr",
+      "confidence": 0.95
+    },
+    "text": "Extracted text...",
+    "structured": {...}
+  }
+  ```
+
+### 📊 Evaluation
+To measure the routing system's performance vs individual models:
+```bash
+python backend/app/ml/evaluate_routed_ocr.py --eval_dir datasets/ocr_eval
+```
+
 ## 🦾 Phase 2B: Transformer OCR (TrOCR)
 
 We have integrated Microsoft's TrOCR (Transformer-based Optical Character Recognition) to compare against traditional OCR engines.
