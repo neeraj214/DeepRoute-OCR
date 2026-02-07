@@ -4,12 +4,14 @@ from backend.app.ml.routing.ocr_router import OCRRouter
 
 class TestOCRRouter:
     
+    @patch('backend.app.ml.routing.ocr_router.os.path.exists')
     @patch('backend.app.ml.routing.ocr_router.get_classifier')
-    def test_routing_logic(self, mock_get_classifier):
+    def test_routing_logic(self, mock_get_classifier, mock_exists):
         """Test if router selects correct engine based on doc type."""
         # Setup mock classifier
         mock_classifier = MagicMock()
         mock_get_classifier.return_value = mock_classifier
+        mock_exists.return_value = True
         
         router = OCRRouter()
         

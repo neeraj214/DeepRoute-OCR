@@ -18,10 +18,13 @@ class OCRRouter:
         "form": "hybrid",   # EasyOCR + cleanup
     }
     
-    def __init__(self, classifier_path: str = None):
+    def __init__(self, model_dir: str = None):
         # The inference_classifier module manages the singleton, 
         # but we can pass explicit paths if needed for testing.
-        self.classifier = get_classifier(model_path=classifier_path)
+        if model_dir:
+            self.classifier = get_classifier(model_dir=model_dir)
+        else:
+            self.classifier = get_classifier()
         
     def route(self, image_path: str) -> Dict[str, Any]:
         """
