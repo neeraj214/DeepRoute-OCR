@@ -122,6 +122,32 @@ Output:
 }
 ```
 
+## 🧪 Phase 3B: Experiment Tracking & Versioning
+
+We maintain a rigorous record of all ML experiments to ensure reproducibility.
+
+### 📜 Experiment Logs
+All training and evaluation runs are automatically logged to:
+- `experiments/experiments.json` (Full details)
+- `experiments/experiments.csv` (Flattened for analysis)
+
+### 📊 CLI Usage
+List recent experiments:
+```bash
+python scripts/list_experiments.py -n 5
+```
+Filter by task:
+```bash
+python scripts/list_experiments.py -t ocr_finetuning
+```
+
+### 🧬 Reproducibility
+Every log entry captures:
+- **Git Commit Hash**: Exact code version used.
+- **Hyperparameters**: Configuration details.
+- **Metrics**: CER, WER, Accuracy.
+- **Artifacts**: Path to saved models.
+
 ## 🧠 Phase 3A: Intelligent OCR Routing
 
 The system now features an **Intelligent Routing Engine** that automatically selects the best OCR model based on document type.
