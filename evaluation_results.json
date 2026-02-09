@@ -1,0 +1,35 @@
+{
+  "model": "easyocr",
+  "dataset_size": 3,
+  "metrics": {
+    "avg_cer": 1.0,
+    "avg_wer": 1.0,
+    "avg_time_ms": 2297.9395666667792
+  },
+  "details": [
+    {
+      "filename": "sample1.png",
+      "ground_truth": "Hello World",
+      "predicted": "",
+      "cer": 1.0,
+      "wer": 1.0,
+      "processing_time_ms": 2459.7852999995666
+    },
+    {
+      "filename": "sample2.png",
+      "ground_truth": "OCR Testing",
+      "predicted": "",
+      "cer": 1.0,
+      "wer": 1.0,
+      "processing_time_ms": 2314.7595999998885
+    },
+    {
+      "filename": "sample3.png",
+      "ground_truth": "1234567890",
+      "predicted": "",
+      "cer": 1.0,
+      "wer": 1.0,
+      "processing_time_ms": 2119.273800000883
+    }
+  ]
+}
