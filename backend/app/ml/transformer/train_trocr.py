@@ -122,4 +122,28 @@ def train_model(
             model.save_pretrained(output_dir)
             processor.save_pretrained(output_dir)
             
-    print(f"Training complete. Best CER: {best_cer:.4f}")
+    model.save_pretrained(output_dir)
+    processor.save_pretrained(output_dir)
+    
+    # Log Experiment
+    try:
+        from backend.app.ml.experiments.experiment_logger import ExperimentLogger
+        logger = ExperimentLogger()
+        logger.log_experiment(
+            model_name="trocr-small-stage1",
+            model_version="v1.0",
+            dataset_version="ocr_train_v1",
+            task="ocr_finetuning",
+            hyperparameters={
+                "epochs": epochs,
+                "batch_size": batch_size,
+                "learning_rate": learning_rate,
+                "base_model": model_name
+            },
+            metrics={"best_cer": best_cer},
+            output_artifacts=output_dir
+        )
+    except Exception as e:
+        print(f"Warning: Failed to log experiment: {e}")
+        
+    print(f"Training finished. Best CER: {best_cer}")
