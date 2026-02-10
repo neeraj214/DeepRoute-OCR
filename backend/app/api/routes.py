@@ -2,10 +2,11 @@ from fastapi import APIRouter, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
 from ..services.file_utils import save_upload_file
 from ..services.ocr_pipeline import process_image
-from ..schemas.ocr import OCRResponse, OCRV1Response
+from ..schemas.ocr import OCRResponse, OCRV1Response, RoutedOCRResponse
 from ..services.ocr_service import run_ocr
 from ..ml.evaluate import evaluate_dataset
 from ..ml.inference_classifier import get_classifier
+from ..ml.unified_ocr import UnifiedOCR
 from ..core.config import settings
 import time
 import os
@@ -100,11 +101,12 @@ async def classify_document(file: UploadFile = File(...)):
         if os.path.exists(path):
             os.remove(path)
 
-@router.post("/ocr/routed")
-async def routed_ocr(file: UploadFile = File(...)):
+
+@router.post("/ocr/routed", response_model=RoutedOCRResponse)
+async def ocr_routed(file: UploadFile = File(...)):
     """
-    Intelligent Routed OCR Endpoint.
-    Classifies the document and routes to the best OCR engine (TrOCR or EasyOCR).
+    Intelligent OCR routing endpoint.
+    Classifies document type and selects best OCR engine (TrOCR vs EasyOCR).
     """
     if file.content_type not in {"image/png", "image/jpeg", "image/jpg"}:
         raise HTTPException(status_code=400, detail="Unsupported file type")
@@ -112,21 +114,18 @@ async def routed_ocr(file: UploadFile = File(...)):
     path = await save_upload_file(file, settings.tmp_dir)
     
     try:
-        from backend.app.ml.unified_ocr import UnifiedOCR
-        # Note: In production, UnifiedOCR should be a singleton dependency
-        unified_ocr = UnifiedOCR()
-        
+        # Initialize UnifiedOCR
+        # In production, this should be a dependency or singleton to avoid reloading models
+        unified_ocr = UnifiedOCR() 
         result = unified_ocr.process(path)
-        
-        # Add pdf_url placeholder if we were to generate one, 
-        # but for now just return the raw routed result
         return JSONResponse(content=result)
         
     except Exception as e:
         return JSONResponse(
-            status_code=500, 
-            content={"error": str(e)}
+            status_code=500,
+            content={"error": str(e), "text": "", "structured": {}, "routing_info": {}}
         )
     finally:
         if os.path.exists(path):
             os.remove(path)
+
