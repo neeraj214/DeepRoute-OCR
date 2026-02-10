@@ -48,6 +48,22 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ result }) => {
 
   return (
     <div className="space-y-4">
+      {result.routing_info && (
+          <div className="flex gap-4 p-3 bg-white/5 rounded-lg border border-white/10 text-sm">
+              <div className="flex items-center gap-2">
+                  <span className="text-text-secondary">Document Type:</span>
+                  <span className="font-semibold text-ai-highlight2">{result.routing_info.doc_type}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                  <span className="text-text-secondary">Engine:</span>
+                  <span className="font-semibold text-ai-highlight">{result.routing_info.ocr_engine}</span>
+              </div>
+              {result.routing_info.fallback_used && (
+                  <span className="text-yellow-500 text-xs px-2 py-0.5 bg-yellow-500/10 rounded">Fallback Used</span>
+              )}
+          </div>
+      )}
+
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="flex p-1 bg-white/5 rounded-lg border border-white/10">
           <TabButton 
