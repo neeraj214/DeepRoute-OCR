@@ -67,3 +67,35 @@ def process_image(path: str, lang_hint: str = None):
         "language": language,
         "pdf_url": pdf_url,
     }
+
+class OCRPipeline:
+    """
+    Wrapper class for OCR operations to be used in UnifiedOCR.
+    """
+    def process_image(self, path: str, lang_hint: str = None, use_easyocr: bool = True):
+        # Determine language
+        lang = lang_hint if lang_hint else settings.default_lang
+        
+        # Read and preprocess
+        img = _read_image(path)
+        pre = preprocess(img)
+        
+        # Run OCR
+        if use_easyocr:
+            try:
+                text, conf = _easyocr_text(pre, lang)
+            except Exception:
+                text, conf = _tesseract_text(pre, lang)
+        else:
+            text, conf = _tesseract_text(pre, lang)
+            
+        # Post-process
+        cleaned = clean_text(text)
+        structured = to_structured(cleaned)
+        
+        return {
+            "text": cleaned,
+            "structured": structured,
+            "confidence": conf,
+            "language": lang
+        }
