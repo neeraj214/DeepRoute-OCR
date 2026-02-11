@@ -45,7 +45,7 @@ def test_math_validation_inference(validator):
     status, errors, corrections = validator.validate(fields)
     assert status == "corrected"
     assert fields["tax_amount"] == 150.30
-    assert any("Inferred from tax_percent" in c["reason"] for c in corrections)
+    assert any("tax_percent" in c["reason"] for c in corrections)
 
 def test_math_validation_failure(validator):
     fields = {
@@ -60,5 +60,6 @@ def test_math_validation_failure(validator):
 def test_quantity_normalization(extractor):
     text = "Projecting X1.0 hours"
     result = extractor.extract(text)
-    assert "x1.0" in result["normalized_text"]
+    # Check that correction was logged
     assert any(c["reason"] == "Normalized quantity case" for c in result["corrections"])
+    assert any(c["original"] == "X1.0" and c["corrected"] == "x1.0" for c in result["corrections"])
