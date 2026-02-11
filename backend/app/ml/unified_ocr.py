@@ -13,10 +13,12 @@ class UnifiedOCR:
     Orchestrates the entire flow:
     1. Route (Classify)
     2. Select Engine
-    3. Execute OCR
+    3. Execute OCR with Ensemble Strategy
     4. Post-process (Extract & Validate)
     5. Return standardized result
     """
+    
+    CONFIDENCE_THRESHOLD = 0.85
     
     def __init__(self):
         self.router = OCRRouter()
@@ -25,9 +27,19 @@ class UnifiedOCR:
         self.extractor = FieldExtractor()
         self.validator = FieldValidator()
         
+    def _run_trocr(self, image_path: str) -> Dict[str, Any]:
+        res = self.trocr.predict(image_path)
+        if "error" in res:
+            return {"text": "", "confidence": 0.0, "error": res["error"]}
+        return {"text": res.get("text", ""), "confidence": res.get("confidence", 0.0)}
+
+    def _run_easyocr(self, image_path: str) -> Dict[str, Any]:
+        res = self.easyocr_pipeline.process_image(image_path, use_easyocr=True)
+        return {"text": res.get("text", ""), "confidence": res.get("confidence", 0.0), "structured": res.get("structured", {})}
+
     def process(self, image_path: str) -> Dict[str, Any]:
         """
-        Process an image using the routed OCR engine.
+        Process an image using the routed OCR engine with ensemble fallback.
         """
         # 1. Route
         route_info = self.router.route(image_path)
@@ -37,49 +49,56 @@ class UnifiedOCR:
             "routing_info": route_info,
             "text": "",
             "raw_text": "",
-            "structured": {},
+            "confidence_score": 0.0,
+            "ensemble_triggered": False,
             "structured_fields": {},
             "validation_status": "none",
             "validation_errors": [],
             "corrections_applied": [],
-            "raw_output": None
+            "metadata": {
+                "engine_used": engine,
+                "classifier_confidence": route_info.get("confidence", 0.0),
+                "document_type": route_info.get("document_type", "unknown")
+            }
         }
         
-        # 2. Execute
+        # 2. Execute with Ensemble Strategy
         try:
+            primary_res = {}
             if engine == "trocr":
-                # TrOCR Execution
-                trocr_res = self.trocr.predict(image_path)
+                primary_res = self._run_trocr(image_path)
+            else:
+                primary_res = self._run_easyocr(image_path)
+            
+            result["text"] = primary_res["text"]
+            result["confidence_score"] = primary_res["confidence"]
+            
+            # Ensemble Trigger
+            if result["confidence_score"] < self.CONFIDENCE_THRESHOLD:
+                result["ensemble_triggered"] = True
+                secondary_engine = "easyocr" if engine == "trocr" else "trocr"
                 
-                if "error" in trocr_res:
-                    raise Exception(trocr_res["error"])
+                secondary_res = {}
+                if secondary_engine == "trocr":
+                    secondary_res = self._run_trocr(image_path)
+                else:
+                    secondary_res = self._run_easyocr(image_path)
+                
+                if secondary_res["confidence"] > result["confidence_score"]:
+                    result["text"] = secondary_res["text"]
+                    result["confidence_score"] = secondary_res["confidence"]
+                    result["metadata"]["engine_used"] = f"ensemble_{secondary_engine}"
+                else:
+                    result["metadata"]["engine_used"] = f"ensemble_{engine}"
                     
-                result["text"] = trocr_res.get("text", "")
-                result["raw_output"] = trocr_res
-                
-            elif engine == "hybrid":
-                # Hybrid: EasyOCR + specific cleanup (simulated here by standard pipeline)
-                # In future, this could chain models.
-                # For now, we use standard pipeline but flag it as hybrid in metadata
-                pipeline_res = self.easyocr_pipeline.process_image(image_path, use_easyocr=True)
-                result["text"] = pipeline_res.get("text", "")
-                result["structured"] = pipeline_res.get("structured", {})
-                
-            else: # easyocr or fallback
-                pipeline_res = self.easyocr_pipeline.process_image(image_path, use_easyocr=True)
-                result["text"] = pipeline_res.get("text", "")
-                result["structured"] = pipeline_res.get("structured", {})
-                
         except Exception as e:
             result["error"] = str(e)
-            # Fallback to safe baseline if specialized model fails
-            if engine != "easyocr":
-                try:
-                    fallback_res = self.easyocr_pipeline.process_image(image_path, use_easyocr=True)
-                    result["text"] = fallback_res.get("text", "")
-                    result["routing_info"]["fallback_used"] = True
-                except Exception as fb_e:
-                    result["fatal_error"] = str(fb_e)
+            # Last resort fallback
+            if result["text"] == "":
+                fallback_res = self._run_easyocr(image_path)
+                result["text"] = fallback_res["text"]
+                result["confidence_score"] = fallback_res["confidence"]
+                result["metadata"]["engine_used"] = "fallback_easyocr"
                     
         # 3. Post-Process (Extract & Validate)
         if result["text"]:
@@ -88,13 +107,28 @@ class UnifiedOCR:
             # Extract
             extracted = self.extractor.extract(result["text"])
             result["structured_fields"] = extracted
-            result["text"] = extracted.pop("normalized_text", result["text"])
-            result["corrections_applied"].extend(extracted.pop("corrections", []))
             
             # Validate
             status, errors, corrections = self.validator.validate(result["structured_fields"])
             result["validation_status"] = status
             result["validation_errors"] = errors
             result["corrections_applied"].extend(corrections)
+            
+            # Standardize for Phase C
+            result["financial_summary"] = {
+                "invoice_id": extracted.get("invoice_id"),
+                "date": extracted.get("invoice_date"),
+                "subtotal": extracted.get("subtotal"),
+                "tax_amount": extracted.get("tax_amount"),
+                "tax_percentage": extracted.get("tax_percentage"),
+                "discount": extracted.get("discount"),
+                "total": extracted.get("total")
+            }
+            result["line_items"] = extracted.get("line_items", []) # Future: add line item extraction
+            result["validation_report"] = {
+                "status": status,
+                "errors": errors,
+                "corrections": corrections
+            }
             
         return result
