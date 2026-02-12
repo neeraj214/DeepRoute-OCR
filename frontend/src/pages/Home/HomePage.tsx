@@ -61,16 +61,16 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </div>
           
           <h1 
-            className="text-6xl md:text-8xl font-black text-text-neutral tracking-tight leading-[1.1] transition-transform duration-300 ease-out"
+            className="text-6xl md:text-8xl tracking-tight leading-[1.15] transition-transform duration-300 ease-out"
             style={{ transform: `translate(${mousePos.x * -0.2}px, ${mousePos.y * -0.2}px)` }}
           >
-            Unlock the Power of <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-action-primary via-ai-highlight1 to-action-primary bg-[length:200%_auto] animate-gradient">
+            <span className="font-light text-text-neutral/90">Unlock the Power of</span> <br />
+            <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-action-primary via-ai-highlight1 to-action-primary bg-[length:200%_auto] animate-gradient">
               Your Documents
             </span>
           </h1>
           
-          <p className="max-w-3xl mx-auto text-xl md:text-2xl text-text-secondary leading-relaxed font-light">
+          <p className="max-w-[65ch] mx-auto text-xl md:text-2xl text-text-secondary leading-relaxed font-light">
             DocVision AI uses enterprise-grade transformers to extract structured data 
             from invoices, forms, and handwritten notes with human-level accuracy.
           </p>
