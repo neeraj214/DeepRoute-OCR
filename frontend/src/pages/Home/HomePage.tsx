@@ -9,58 +9,89 @@ interface HomePageProps {
 
 const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   return (
-    <div className="space-y-16 animate-fade-in">
-      {/* Hero Section */}
-      <section className="text-center space-y-8 py-20 relative">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-action-primary/20 blur-[100px] rounded-full -z-10" />
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Dynamic Animated Background */}
+      <div className="absolute inset-0 -z-20 overflow-hidden pointer-events-none">
+        {/* Animated Gradient Orbs */}
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-action-primary/20 blur-[120px] rounded-full animate-pulse-slow" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-ai-highlight1/15 blur-[150px] rounded-full animate-float" />
+        <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] bg-ai-highlight2/10 blur-[100px] rounded-full animate-pulse-slow [animation-delay:2s]" />
         
-        <div className="inline-flex items-center justify-center p-4 bg-action-primary/10 rounded-full mb-4 ring-1 ring-action-primary/20 shadow-lg shadow-action-primary/20">
-          <Scan className="w-10 h-10 text-action-primary" />
-        </div>
-        
-        <h1 className="text-5xl md:text-7xl font-extrabold text-text-neutral tracking-tight leading-tight">
-          Transform Images into <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-action-primary via-ai-highlight1 to-action-primary bg-[length:200%_auto] animate-gradient">
-            Actionable Text
-          </span>
-        </h1>
-        
-        <p className="max-w-2xl mx-auto text-xl text-text-secondary leading-relaxed">
-          DocVision AI uses advanced optical character recognition to extract text,
-          tables, and structure from your documents in seconds.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row justify-center gap-4 pt-8">
-          <Button size="lg" onClick={() => onNavigate("upload")} className="text-lg px-8 py-4 h-auto">
-            Start OCR Now
-          </Button>
-          <Button variant="secondary" size="lg" className="text-lg px-8 py-4 h-auto">
-            View Documentation
-          </Button>
-        </div>
-      </section>
+        {/* Grid Pattern Overlay */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
+        <div className="absolute inset-0 bg-grid-slate-900/[0.04] bg-[bottom_1px_center] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
+      </div>
 
-      {/* Features Grid */}
-      <section className="grid md:grid-cols-3 gap-8">
-        <FeatureCard
-          icon={<Zap className="w-6 h-6 text-ai-highlight2" />}
-          title="Lightning Fast"
-          description="Process documents in milliseconds with our optimized inference engine."
-        />
-        <FeatureCard
-          icon={<FileText className="w-6 h-6 text-action-primary" />}
-          title="Structured Output"
-          description="Get results in plain text, structured JSON, or searchable PDF formats."
-        />
-        <FeatureCard
-          icon={<Shield className="w-6 h-6 text-ai-highlight1" />}
-          title="Secure & Private"
-          description="Your documents are processed in ephemeral containers and never stored."
-        />
-      </section>
+      <div className="space-y-24 py-12 relative z-10 animate-fade-in">
+        {/* Hero Section */}
+        <section className="text-center space-y-10 py-20 relative max-w-5xl mx-auto">
+          <div className="inline-flex items-center justify-center p-1 rounded-full bg-gradient-to-r from-action-primary/20 via-ai-highlight1/20 to-action-primary/20 p-[1px] mb-8 group hover:scale-105 transition-transform duration-300">
+            <div className="bg-primary-base rounded-full px-6 py-2 flex items-center gap-3">
+              <Scan className="w-5 h-5 text-action-primary animate-pulse" />
+              <span className="text-sm font-medium text-text-neutral/80 tracking-wider uppercase">Next-Gen OCR Engine</span>
+            </div>
+          </div>
+          
+          <h1 className="text-6xl md:text-8xl font-black text-text-neutral tracking-tight leading-[1.1]">
+            Unlock the Power of <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-action-primary via-ai-highlight1 to-action-primary bg-[length:200%_auto] animate-gradient">
+              Your Documents
+            </span>
+          </h1>
+          
+          <p className="max-w-3xl mx-auto text-xl md:text-2xl text-text-secondary leading-relaxed font-light">
+            DocVision AI uses enterprise-grade transformers to extract structured data 
+            from invoices, forms, and handwritten notes with human-level accuracy.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-6 pt-10">
+            <Button size="lg" onClick={() => onNavigate("upload")} className="text-xl px-10 py-6 h-auto rounded-2xl shadow-2xl shadow-action-primary/30 hover:shadow-action-primary/50 transition-all duration-300 group">
+              Start Free Extraction
+              <Zap className="ml-2 w-5 h-5 group-hover:fill-current" />
+            </Button>
+            <Button variant="secondary" size="lg" className="text-xl px-10 py-6 h-auto rounded-2xl border-white/10 hover:bg-white/5">
+              Enterprise Demo
+            </Button>
+          </div>
+        </section>
+
+        {/* Stats / Proof Section */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto py-12 border-y border-white/5">
+          <StatItem label="Accuracy" value="99.9%" />
+          <StatItem label="Processing" value="< 2s" />
+          <StatItem label="Formats" value="50+" />
+          <StatItem label="Secure" value="SOC2" />
+        </div>
+
+        {/* Features Grid */}
+        <section className="grid md:grid-cols-3 gap-8 px-4">
+          <FeatureCard
+            icon={<Zap className="w-8 h-8 text-ai-highlight2" />}
+            title="Transformer OCR"
+            description="Leverage TrOCR and Vision Transformers for unmatched character recognition even in low-quality scans."
+          />
+          <FeatureCard
+            icon={<FileText className="w-8 h-8 text-action-primary" />}
+            title="Intelligent Routing"
+            description="Our AI classifier automatically routes documents to the specialized engine for the best possible results."
+          />
+          <FeatureCard
+            icon={<Shield className="w-8 h-8 text-ai-highlight1" />}
+            title="Data Governance"
+            description="Enterprise-grade encryption and PII masking ensure your sensitive financial data remains private."
+          />
+        </section>
+      </div>
     </div>
   );
 };
+
+const StatItem: React.FC<{ label: string; value: string }> = ({ label, value }) => (
+  <div className="text-center">
+    <div className="text-2xl font-bold text-text-neutral">{value}</div>
+    <div className="text-sm text-text-secondary uppercase tracking-widest">{label}</div>
+  </div>
+);
 
 const FeatureCard: React.FC<{
   icon: React.ReactNode;
