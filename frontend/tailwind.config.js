@@ -32,8 +32,14 @@ export default {
         'gradient': 'gradient 8s ease infinite',
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'float': 'float 6s ease-in-out infinite',
+        'scan': 'scan 3s ease-in-out infinite',
       },
       keyframes: {
+        scan: {
+          '0%, 100%': { transform: 'translateY(-100%)', opacity: '0' },
+          '50%': { opacity: '1' },
+          '100%': { transform: 'translateY(200%)', opacity: '0' },
+        },
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },

@@ -87,6 +87,75 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               Enterprise Demo
             </Button>
           </div>
+
+          {/* Product Preview / Before-After Section */}
+          <div className="mt-20 relative max-w-5xl mx-auto px-4">
+            <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl animate-slide-up">
+              <div className="flex flex-col lg:flex-row items-stretch">
+                {/* Before: Messy Invoice */}
+                <div className="flex-1 p-8 border-b lg:border-b-0 lg:border-r border-white/10 bg-white/[0.02]">
+                  <div className="flex items-center gap-2 mb-6 text-text-secondary/60 text-sm font-medium uppercase tracking-wider">
+                    <FileText className="w-4 h-4" />
+                    Input: Raw Document
+                  </div>
+                  <div className="relative aspect-[4/5] bg-white/5 rounded-xl border border-white/5 overflow-hidden group">
+                    <div className="absolute inset-0 p-6 space-y-4 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
+                      <div className="h-4 w-1/3 bg-white/20 rounded" />
+                      <div className="space-y-2">
+                        <div className="h-2 w-full bg-white/10 rounded" />
+                        <div className="h-2 w-5/6 bg-white/10 rounded" />
+                      </div>
+                      <div className="pt-8 space-y-3">
+                        <div className="h-8 w-full border border-white/10 rounded" />
+                        <div className="h-8 w-full border border-white/10 rounded" />
+                        <div className="h-8 w-full border border-white/10 rounded" />
+                      </div>
+                    </div>
+                    {/* Scanning Animation */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-action-primary/20 to-transparent h-1/2 w-full animate-[scan_3s_ease-in-out_infinite] pointer-events-none" />
+                  </div>
+                </div>
+
+                {/* Transformation Arrow */}
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 hidden lg:block">
+                  <div className="w-12 h-12 rounded-full bg-action-primary flex items-center justify-center shadow-lg shadow-action-primary/50 animate-pulse">
+                    <Zap className="w-6 h-6 text-white" />
+                  </div>
+                </div>
+
+                {/* After: Clean JSON */}
+                <div className="flex-1 p-8 bg-black/40">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-2 text-ai-highlight1 text-sm font-medium uppercase tracking-wider">
+                      <Zap className="w-4 h-4" />
+                      Output: Structured Data
+                    </div>
+                    <div className="px-2 py-1 rounded bg-ai-highlight1/10 text-ai-highlight1 text-[10px] font-bold border border-ai-highlight1/20">
+                      JSON
+                    </div>
+                  </div>
+                  <div className="relative aspect-[4/5] font-mono text-sm overflow-hidden">
+                    <div className="text-ai-highlight1/90 space-y-1">
+                      <div className="text-text-secondary/50">{"{"}</div>
+                      <div className="pl-4"><span className="text-ai-highlight2">"invoice_id"</span>: <span className="text-action-primary">"INV-2024-001"</span>,</div>
+                      <div className="pl-4"><span className="text-ai-highlight2">"date"</span>: <span className="text-action-primary">"2024-02-12"</span>,</div>
+                      <div className="pl-4"><span className="text-ai-highlight2">"vendor"</span>: <span className="text-action-primary">"TechCorp Systems"</span>,</div>
+                      <div className="pl-4"><span className="text-ai-highlight2">"items"</span>: [</div>
+                      <div className="pl-8">{"{"}</div>
+                      <div className="pl-12"><span className="text-ai-highlight2">"desc"</span>: <span className="text-action-primary">"Cloud API Usage"</span>,</div>
+                      <div className="pl-12"><span className="text-ai-highlight2">"total"</span>: <span className="text-action-primary">1240.50</span></div>
+                      <div className="pl-8">{"}"}</div>
+                      <div className="pl-4">],</div>
+                      <div className="pl-4"><span className="text-ai-highlight2">"confidence"</span>: <span className="text-green-400">0.998</span></div>
+                      <div className="text-text-secondary/50">{"}"}</div>
+                    </div>
+                    {/* Floating Glow */}
+                    <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-action-primary/20 blur-[60px] rounded-full" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* Stats / Proof Section */}
