@@ -23,6 +23,11 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-primary-base">
+      {/* Mesh Background Pattern */}
+      <div className="absolute inset-0 -z-30 opacity-30">
+        <div className="absolute inset-0 bg-[radial-gradient(at_top_right,rgba(99,102,241,0.15),transparent_50%),radial-gradient(at_bottom_left,rgba(216,180,254,0.1),transparent_50%)]" />
+      </div>
+
       {/* Interactive Background Layer */}
       <div 
         className="absolute inset-0 -z-20 transition-transform duration-75 ease-out pointer-events-none"
@@ -53,10 +58,10 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <div className="space-y-24 py-12 relative z-10 animate-fade-in">
         {/* Hero Section */}
         <section className="text-center space-y-10 py-20 relative max-w-5xl mx-auto px-4">
-          <div className="inline-flex items-center justify-center p-1 rounded-full bg-gradient-to-r from-action-primary/20 via-ai-highlight1/20 to-action-primary/20 p-[1px] mb-8 group hover:scale-105 transition-transform duration-300">
-            <div className="bg-primary-base rounded-full px-6 py-2 flex items-center gap-3">
+          <div className="inline-flex items-center justify-center p-1 rounded-full bg-white/5 backdrop-blur-md border border-white/10 p-[1px] mb-8 group hover:scale-105 transition-all duration-300 shadow-xl shadow-black/20">
+            <div className="bg-primary-base/40 rounded-full px-6 py-2 flex items-center gap-3">
               <Scan className="w-5 h-5 text-action-primary animate-pulse" />
-              <span className="text-sm font-medium text-text-neutral/80 tracking-wider uppercase">Next-Gen OCR Engine</span>
+              <span className="text-sm font-bold text-text-neutral/80 tracking-wider uppercase">Next-Gen OCR Engine</span>
             </div>
           </div>
           
