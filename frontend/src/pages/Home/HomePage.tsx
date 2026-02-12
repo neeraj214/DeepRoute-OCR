@@ -1,12 +1,3 @@
-import React from "react";
-import { Button } from "../../components/ui/Button";
-import { Card } from "../../components/ui/Card";
-import { Scan, FileText, Zap, Shield } from "lucide-react";
-
-interface HomePageProps {
-  onNavigate: (page: "upload") => void;
-}
-
 import React, { useState, useEffect } from "react";
 import { Button } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
