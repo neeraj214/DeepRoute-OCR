@@ -156,6 +156,19 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               </div>
             </div>
           </div>
+
+          {/* Logo Cloud Section */}
+          <div className="mt-32 max-w-7xl mx-auto px-4">
+            <p className="text-center text-sm font-semibold text-text-secondary/50 uppercase tracking-[0.2em] mb-12">
+              Trusted by industry leaders worldwide
+            </p>
+            <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
+              <LogoItem name="GlobateCorp" />
+              <LogoItem name="DataPrime" />
+              <LogoItem name="NexusTech" />
+              <LogoItem name="FutureSolutions" />
+            </div>
+          </div>
         </section>
 
         {/* Stats / Proof Section */}
@@ -165,6 +178,18 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           <StatItem label="Processing" value="< 2s" />
           <StatItem label="Formats" value="50+" />
           <StatItem label="Secure" value="SOC2" />
+        </div>
+
+        {/* Security Trust Badges */}
+        <div className="flex justify-center gap-8 py-8 opacity-60">
+          <div className="flex items-center gap-2 text-xs font-bold text-text-secondary border border-white/10 rounded-lg px-4 py-2 backdrop-blur-sm">
+            <Shield className="w-4 h-4 text-ai-highlight2" />
+            SOC2 COMPLIANT
+          </div>
+          <div className="flex items-center gap-2 text-xs font-bold text-text-secondary border border-white/10 rounded-lg px-4 py-2 backdrop-blur-sm">
+            <Zap className="w-4 h-4 text-action-primary" />
+            AES-256 ENCRYPTED
+          </div>
         </div>
 
         {/* Features Grid */}
@@ -189,6 +214,15 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     </div>
   );
 };
+
+const LogoItem: React.FC<{ name: string }> = ({ name }) => (
+  <div className="flex items-center gap-2 group/logo">
+    <div className="w-8 h-8 rounded bg-white/10 flex items-center justify-center font-black text-xs group-hover/logo:bg-action-primary/20 group-hover/logo:text-action-primary transition-colors">
+      {name[0]}
+    </div>
+    <span className="font-bold tracking-tight text-lg group-hover/logo:text-white transition-colors">{name}</span>
+  </div>
+);
 
 const StatItem: React.FC<{ label: string; value: string }> = ({ label, value }) => (
   <div className="text-center">
