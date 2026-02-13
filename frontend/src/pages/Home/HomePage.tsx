@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
-import { Scan, FileText, Zap, Shield, CheckCircle, PenLine, ShieldCheck } from "lucide-react";
+import { Scan, FileText, Zap, Shield, CheckCircle, PenLine, ShieldCheck, Database, Lock, Cpu } from "lucide-react";
 
 interface HomePageProps {
   onNavigate: (page: "upload") => void;
@@ -153,51 +153,111 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </div>
         </section>
 
-        {/* Features & About Section */}
-        <section id="features" className="py-32 relative overflow-hidden">
+        {/* About Section */}
+        <section id="about" className="py-32 relative">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.05)_0%,transparent_70%)]" />
+          <div className="max-w-7xl mx-auto px-4 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+              {/* Left Side: Abstract 3D Graphic */}
+              <div className="relative group order-2 lg:order-1">
+                <div className="absolute -inset-4 bg-gradient-to-tr from-action-primary/20 to-ai-highlight1/20 rounded-[3rem] blur-2xl opacity-50 group-hover:opacity-80 transition-opacity duration-500" />
+                <div className="relative aspect-square rounded-[3rem] border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center p-12">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.05)_0%,transparent_50%)]" />
+                  
+                  {/* Abstract Neural Network Visualization */}
+                  <div className="relative w-full h-full flex items-center justify-center">
+                    <div className="absolute w-64 h-64 border-2 border-action-primary/20 rounded-full animate-[spin_20s_linear_infinite]" />
+                    <div className="absolute w-48 h-48 border-2 border-ai-highlight1/20 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
+                    <div className="absolute w-32 h-32 border-2 border-ai-highlight2/20 rounded-full animate-[spin_10s_linear_infinite]" />
+                    
+                    <div className="relative z-10 grid grid-cols-3 gap-8">
+                      {[...Array(9)].map((_, i) => (
+                        <div 
+                          key={i} 
+                          className="w-4 h-4 rounded-full bg-white/20 animate-pulse" 
+                          style={{ animationDelay: `${i * 0.2}s` }}
+                        />
+                      ))}
+                    </div>
+                    
+                    {/* Floating Icons */}
+                    <Cpu className="absolute top-1/4 left-1/4 w-8 h-8 text-action-primary animate-float opacity-40" />
+                    <Database className="absolute bottom-1/4 right-1/4 w-8 h-8 text-ai-highlight1 animate-float [animation-delay:2s] opacity-40" />
+                    <Scan className="absolute top-1/2 right-1/4 w-6 h-6 text-ai-highlight2 animate-float [animation-delay:4s] opacity-40" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Side: Our Mission & Stats */}
+              <div className="space-y-10 order-1 lg:order-2">
+                <div className="space-y-6">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-action-primary/10 border border-action-primary/20 text-action-primary text-sm font-bold tracking-wider uppercase">
+                    Our Mission
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+                    Bridging the gap between <br />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-action-primary to-ai-highlight1">
+                      Physical and Digital Intelligence
+                    </span>
+                  </h2>
+                  <div className="space-y-4 text-text-secondary text-lg leading-relaxed opacity-80">
+                    <p>
+                      At DocVision AI, we believe that every piece of information trapped in a physical document is a missed opportunity. Our mission is to liberate that data using state-of-the-art transformer technology.
+                    </p>
+                    <p>
+                      By combining human-level character recognition with enterprise-grade data structures, we empower organizations to automate their most complex document workflows with absolute confidence.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Statistics Row */}
+                <div className="grid grid-cols-3 gap-8 pt-6 border-t border-white/10">
+                  <div>
+                    <div className="text-3xl font-bold text-white mb-1">99.9%</div>
+                    <div className="text-xs text-text-secondary uppercase tracking-widest font-bold opacity-60">Accuracy</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-white mb-1">100+</div>
+                    <div className="text-xs text-text-secondary uppercase tracking-widest font-bold opacity-60">Languages</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-white mb-1">&lt; 2s</div>
+                    <div className="text-xs text-text-secondary uppercase tracking-widest font-bold opacity-60">Processing</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Key Capabilities Section */}
+        <section id="features" className="py-32 relative overflow-hidden bg-white/[0.02]">
           <div className="max-w-7xl mx-auto px-4 relative z-10">
             <div className="flex flex-col items-center text-center mb-20">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
-                Enterprise-Grade <span className="text-action-primary">Capabilities</span>
+                Key <span className="text-action-primary">Capabilities</span>
               </h2>
               <p className="max-w-2xl text-text-secondary text-lg opacity-70">
-                DocVision AI combines state-of-the-art vision transformers with enterprise security 
-                to transform how your organization handles document data.
+                Enterprise-grade tools designed for the modern data-driven organization.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <FeatureCard 
-                icon={<CheckCircle className="w-8 h-8 text-ai-highlight2" />}
-                title="Automatic Data Extraction"
+              <CapabilityCard 
+                icon={<Scan className="w-8 h-8 text-ai-highlight2" />}
+                title="Advanced OCR"
                 description="Zero-shot extraction of structured fields from any document type without pre-defined templates or manual rules."
               />
-              <FeatureCard 
-                icon={<PenLine className="w-8 h-8 text-action-primary" />}
-                title="Handwritten Text Recognition"
-                description="Human-level accuracy on cursive, messy, or faded handwriting using our proprietary deep learning models."
+              <CapabilityCard 
+                icon={<Database className="w-8 h-8 text-action-primary" />}
+                title="Structured Export"
+                description="Export parsed data directly into JSON, CSV, or your existing database with perfectly mapped schemas."
               />
-              <FeatureCard 
-                icon={<ShieldCheck className="w-8 h-8 text-ai-highlight1" />}
-                title="Enterprise-Grade Security"
-                description="End-to-end encryption, SOC2 compliance, and automated PII masking to keep your sensitive data protected."
+              <CapabilityCard 
+                icon={<Lock className="w-8 h-8 text-ai-highlight1" />}
+                title="Privacy First"
+                description="End-to-end encryption and automated PII masking ensure your sensitive data remains protected and compliant."
               />
-            </div>
-          </div>
-
-          {/* Background depth for features */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-action-primary/5 blur-[120px] rounded-full pointer-events-none" />
-        </section>
-
-        {/* Trust Section / Stats */}
-        <section className="pb-32">
-          <div className="max-w-4xl mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-16 border-y border-white/10 relative group bg-white/5 backdrop-blur-sm rounded-3xl overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
-              <StatItem label="Accuracy" value="99.9%" />
-              <StatItem label="Processing" value="< 2s" />
-              <StatItem label="Formats" value="50+" />
-              <StatItem label="Secure" value="SOC2" />
             </div>
           </div>
         </section>
@@ -206,13 +266,14 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   );
 };
 
-const FeatureCard: React.FC<{ icon: React.ReactNode; title: string; description: string }> = ({ icon, title, description }) => (
+const CapabilityCard: React.FC<{ icon: React.ReactNode; title: string; description: string }> = ({ icon, title, description }) => (
   <div className="group relative">
-    {/* Subtle glow behind card */}
-    <div className="absolute -inset-0.5 bg-gradient-to-r from-action-primary/20 to-ai-highlight1/20 rounded-[2rem] blur opacity-0 group-hover:opacity-100 transition duration-500" />
+    {/* Glassmorphic Background */}
+    <div className="absolute inset-0 bg-white/5 backdrop-blur-xl rounded-[2.5rem] border border-white/10 group-hover:border-action-primary/50 transition-all duration-500" />
+    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
     
-    <div className="relative h-full bg-[#161B26] border border-white/5 rounded-[2rem] p-10 hover:border-action-primary/50 transition-all duration-500 flex flex-col items-start text-left shadow-2xl shadow-black/50">
-      <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 ring-1 ring-white/10">
+    <div className="relative h-full p-10 flex flex-col items-start text-left">
+      <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 ring-1 ring-white/10 group-hover:ring-action-primary/30 shadow-lg">
         {icon}
       </div>
       <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-action-primary transition-colors">
