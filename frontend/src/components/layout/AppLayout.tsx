@@ -22,21 +22,21 @@ const AppLayout: React.FC<Props> = ({ children }) => {
 
             {/* Navigation Links */}
             <nav className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-sm font-semibold text-white relative group">
-                Features
+              <a href="#home" className="text-sm font-semibold text-white relative group">
+                Home
                 <span className="absolute -bottom-[21px] left-0 w-full h-0.5 bg-white scale-x-100 transition-transform" />
               </a>
-              <a href="#pricing" className="text-sm font-semibold text-text-secondary hover:text-white transition-colors">Pricing</a>
-              <a href="#docs" className="text-sm font-semibold text-text-secondary hover:text-white transition-colors">API Docs</a>
+              <a href="#upload" className="text-sm font-semibold text-text-secondary hover:text-white transition-colors">Upload</a>
+              <a href="#features" className="text-sm font-semibold text-text-secondary hover:text-white transition-colors">Features</a>
               <a href="#about" className="text-sm font-semibold text-text-secondary hover:text-white transition-colors">About</a>
             </nav>
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-8">
             <button className="hidden sm:block text-sm font-semibold text-text-secondary hover:text-white transition-colors">
               Login
             </button>
-            <Button size="sm" className="bg-action-primary hover:bg-action-hover text-white rounded-lg px-6 py-2 text-sm font-bold shadow-lg shadow-action-primary/25 transition-all">
+            <Button size="sm" className="bg-action-primary hover:bg-action-hover text-white rounded-lg px-6 py-2 text-sm font-bold shadow-lg shadow-action-primary/30 transition-all hover:shadow-action-primary/50 ring-1 ring-white/10">
               Sign Up
             </Button>
           </div>
