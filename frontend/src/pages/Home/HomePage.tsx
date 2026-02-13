@@ -22,10 +22,10 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-primary-base">
+    <div className="relative min-h-screen overflow-hidden bg-[#0B0F19]">
       {/* Mesh Background Pattern */}
-      <div className="absolute inset-0 -z-30 opacity-30">
-        <div className="absolute inset-0 bg-[radial-gradient(at_top_right,rgba(99,102,241,0.15),transparent_50%),radial-gradient(at_bottom_left,rgba(216,180,254,0.1),transparent_50%)]" />
+      <div className="absolute inset-0 -z-30 opacity-20">
+        <div className="absolute inset-0 bg-[radial-gradient(at_top_right,rgba(99,102,241,0.1),transparent_50%),radial-gradient(at_bottom_left,rgba(216,180,254,0.05),transparent_50%)]" />
       </div>
 
       {/* Interactive Background Layer */}
@@ -57,84 +57,94 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
       <div className="relative z-10 animate-fade-in">
         {/* Hero Section */}
-        <section className="pt-20 pb-32 relative max-w-7xl mx-auto px-4">
-          <div className="flex flex-col lg:flex-row items-center gap-16">
-            {/* Left Column: Content */}
-            <div className="flex-1 text-left space-y-10">
-              <div className="inline-flex items-center justify-center p-1 rounded-full bg-white/5 backdrop-blur-md border border-white/10 p-[1px] group hover:scale-105 transition-all duration-300 shadow-xl shadow-black/20">
-                <div className="bg-primary-base/40 rounded-full px-6 py-2 flex items-center gap-3">
-                  <Scan className="w-5 h-5 text-action-primary animate-pulse" />
-                  <span className="text-sm font-bold text-text-neutral/80 tracking-wider uppercase">Next-Gen OCR Engine</span>
+        <section className="pt-24 pb-32 relative max-w-7xl mx-auto px-4">
+          <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-20">
+            {/* Left Column: Content (60%) */}
+            <div className="lg:w-[60%] text-left space-y-8 flex flex-col items-start">
+              <div className="inline-flex items-center justify-center p-1 rounded-full bg-white/5 backdrop-blur-md border border-white/10 group hover:scale-105 transition-all duration-300 shadow-xl shadow-black/20">
+                <div className="bg-[#0B0F19]/60 rounded-full px-5 py-1.5 flex items-center gap-2.5">
+                  <Scan className="w-4 h-4 text-action-primary animate-pulse" />
+                  <span className="text-xs font-bold text-text-neutral/70 tracking-widest uppercase">Next-Gen OCR Engine</span>
                 </div>
               </div>
               
               <h1 
-                className="text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[1.1] transition-transform duration-300 ease-out"
-                style={{ transform: `translate(${mousePos.x * -0.2}px, ${mousePos.y * -0.2}px)` }}
+                className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.05] transition-transform duration-300 ease-out text-left"
+                style={{ transform: `translate(${mousePos.x * -0.1}px, ${mousePos.y * -0.1}px)` }}
               >
-                <span className="font-bold text-text-neutral">Unlock the Power of</span> <br />
-                <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-action-primary via-ai-highlight1 to-action-primary bg-[length:200%_auto] animate-gradient">
+                Unlock the Power of <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-action-primary via-ai-highlight1 to-action-primary bg-[length:200%_auto] animate-gradient">
                   Your Documents
                 </span>
               </h1>
               
-              <p className="max-w-[50ch] text-xl text-text-secondary leading-relaxed font-normal opacity-80">
+              <p className="max-w-2xl text-lg md:text-xl text-text-secondary leading-relaxed font-normal opacity-70 text-left">
                 DocVision AI uses enterprise-grade transformers to extract structured data 
                 from invoices, forms, and handwritten notes with human-level accuracy.
               </p>
               
-              <div className="flex flex-col sm:flex-row justify-start items-center gap-6 pt-4">
-                <Button size="lg" onClick={() => onNavigate("upload")} className="text-lg px-8 py-6 h-auto rounded-xl shadow-2xl shadow-action-primary/30 hover:shadow-action-primary/50 transition-all duration-500 group relative overflow-hidden bg-action-primary">
+              <div className="flex flex-col sm:flex-row justify-start items-center gap-5 pt-4">
+                <Button size="lg" onClick={() => onNavigate("upload")} className="text-lg px-8 py-6 h-auto rounded-xl shadow-[0_0_20px_rgba(168,85,247,0.3)] hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all duration-500 group relative overflow-hidden bg-action-primary border-none">
                   <span className="relative z-10 flex items-center font-bold">
                     Start Free Extraction
                     <Zap className="ml-2 w-5 h-5 group-hover:fill-current group-hover:scale-125 transition-transform duration-300" />
                   </span>
                 </Button>
-                <Button variant="secondary" size="lg" className="text-lg px-8 py-6 h-auto rounded-xl border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-sm transition-all duration-300 font-bold text-text-neutral">
+                <Button variant="outline" size="lg" className="text-lg px-8 py-6 h-auto rounded-xl border-white/10 bg-transparent hover:bg-white/5 backdrop-blur-sm transition-all duration-300 font-bold text-text-neutral">
                   Enterprise Demo
                 </Button>
               </div>
             </div>
 
-            {/* Right Column: Product Preview */}
-            <div className="flex-1 w-full max-w-2xl">
-              <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl animate-slide-up group">
-                <div className="flex flex-col items-stretch">
-                  {/* Before/After Visualization */}
-                  <div className="p-1 bg-gradient-to-br from-white/10 to-transparent">
-                    <div className="relative aspect-[16/10] bg-black/40 rounded-xl overflow-hidden">
-                      {/* Image representation matching the screenshot */}
-                      <div className="absolute inset-0 p-8 flex gap-4">
-                        {/* Left side: Doc representation */}
-                        <div className="flex-1 bg-white/5 rounded-lg border border-white/10 p-4 space-y-3 opacity-60">
-                          <div className="h-2 w-1/2 bg-white/20 rounded" />
-                          <div className="h-12 w-full border border-white/10 rounded" />
-                          <div className="h-12 w-full border border-white/10 rounded" />
-                          <div className="h-12 w-full border border-white/10 rounded" />
+            {/* Right Column: Dashboard Mockup (40%) */}
+            <div className="lg:w-[40%] w-full relative group">
+              <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-slide-up transition-transform duration-500 hover:scale-[1.02]">
+                <div className="p-1 bg-gradient-to-br from-white/10 to-transparent">
+                  <div className="relative aspect-[16/12] bg-[#0B0F19]/80 rounded-xl overflow-hidden">
+                    {/* Floating Glows */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-action-primary/20 blur-[60px] rounded-full" />
+                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-ai-highlight1/10 blur-[60px] rounded-full" />
+
+                    <div className="absolute inset-0 p-6 flex flex-col">
+                      <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                          <span className="text-[10px] font-bold text-white/50 tracking-widest uppercase">Live Processing</span>
                         </div>
-                        {/* Right side: Code representation */}
-                        <div className="flex-1 bg-black/60 rounded-lg border border-white/10 p-4 font-mono text-[10px] text-action-primary/80 overflow-hidden">
-                          <div className="text-white/40">{"{"}</div>
-                          <div className="pl-2">"id": "INV-001",</div>
-                          <div className="pl-2">"date": "2024-02-12",</div>
-                          <div className="pl-2">"total": 1240.50,</div>
-                          <div className="pl-2">"items": [...]</div>
-                          <div className="text-white/40">{"}"}</div>
-                        </div>
-                        {/* Connecting arrows animation */}
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                          <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-action-primary/50 to-transparent animate-pulse" />
+                        <div className="flex gap-1.5">
+                          <div className="w-2 h-2 rounded-full bg-white/10" />
+                          <div className="w-2 h-2 rounded-full bg-white/10" />
+                          <div className="w-2 h-2 rounded-full bg-white/10" />
                         </div>
                       </div>
-                      
-                      {/* Scanning line */}
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-action-primary/20 to-transparent h-1/2 w-full animate-[scan_4s_ease-in-out_infinite] pointer-events-none" />
-                      
-                      {/* Floating UI Elements */}
-                      <div className="absolute top-4 left-4 flex items-center gap-2 px-2 py-1 rounded bg-black/60 border border-white/10">
-                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                        <span className="text-[10px] font-bold text-white/60">LIVE PROCESSING</span>
+
+                      <div className="flex-1 flex gap-4 overflow-hidden">
+                        {/* Left side: Document */}
+                        <div className="flex-1 bg-white/5 rounded-lg border border-white/10 p-4 space-y-3 opacity-60 overflow-hidden">
+                          <div className="h-1.5 w-1/2 bg-white/20 rounded" />
+                          <div className="h-10 w-full border border-white/10 rounded-md bg-white/5" />
+                          <div className="h-10 w-full border border-white/10 rounded-md bg-white/5" />
+                          <div className="h-10 w-full border border-white/10 rounded-md bg-white/5" />
+                          <div className="h-1.5 w-3/4 bg-white/20 rounded pt-2" />
+                        </div>
+                        
+                        {/* Right side: JSON Code */}
+                        <div className="flex-1 bg-black/40 rounded-lg border border-white/10 p-4 font-mono text-[10px] text-action-primary/90 overflow-hidden relative">
+                          <div className="text-white/30">{"{"}</div>
+                          <div className="pl-2"><span className="text-ai-highlight2">"id"</span>: "INV-001",</div>
+                          <div className="pl-2"><span className="text-ai-highlight2">"date"</span>: "2024-02-12",</div>
+                          <div className="pl-2"><span className="text-ai-highlight2">"total"</span>: 1240.50,</div>
+                          <div className="pl-2"><span className="text-ai-highlight2">"status"</span>: "parsed",</div>
+                          <div className="pl-2"><span className="text-ai-highlight2">"items"</span>: [...]</div>
+                          <div className="text-white/30">{"}"}</div>
+                          
+                          {/* Inner glow for JSON */}
+                          <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(168,85,247,0.1)] pointer-events-none" />
+                        </div>
                       </div>
+
+                      {/* Scanning Line */}
+                      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-action-primary to-transparent animate-[scan_4s_ease-in-out_infinite] pointer-events-none opacity-50" />
                     </div>
                   </div>
                 </div>
