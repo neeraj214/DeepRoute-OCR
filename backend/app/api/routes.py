@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from fastapi.responses import JSONResponse
 from ..services.file_utils import save_upload_file
 from ..services.ocr_pipeline import process_image
@@ -8,6 +8,8 @@ from ..ml.evaluate import evaluate_dataset
 from ..ml.inference_classifier import get_classifier
 from ..ml.unified_ocr import UnifiedOCR
 from ..core.config import settings
+from ..auth.dependencies import get_current_active_user, require_role
+from ..auth.models import User
 import time
 import os
 
@@ -53,7 +55,7 @@ async def ocr_v1(file: UploadFile = File(...)):
 
 
 @router.get("/ml/evaluate")
-def evaluate_model():
+def evaluate_model(current_user: User = Depends(require_role("admin"))):
     # Assume dataset is at project root / datasets / ocr_eval
     # We need to resolve the path relative to the running application
     cwd = os.getcwd()
@@ -70,7 +72,7 @@ def evaluate_model():
     return JSONResponse(content=results)
 
 @router.post("/ml/classify")
-async def classify_document(file: UploadFile = File(...)):
+async def classify_document(file: UploadFile = File(...), current_user: User = Depends(get_current_active_user)):
     """
     Classify document type using CNN model.
     """
@@ -103,7 +105,7 @@ async def classify_document(file: UploadFile = File(...)):
 
 
 @router.post("/ocr/routed", response_model=RoutedOCRResponse)
-async def ocr_routed(file: UploadFile = File(...)):
+async def ocr_routed(file: UploadFile = File(...), current_user: User = Depends(get_current_active_user)):
     """
     Intelligent OCR routing endpoint.
     Classifies document type and selects best OCR engine (TrOCR vs EasyOCR).
@@ -128,4 +130,3 @@ async def ocr_routed(file: UploadFile = File(...)):
     finally:
         if os.path.exists(path):
             os.remove(path)
-
