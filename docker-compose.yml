@@ -3,15 +3,30 @@ services:
   backend:
     build:
       context: .
-    image: docvision-backend:latest
-    env_file:
-      - .env
+      dockerfile: Dockerfile
     environment:
-      default_lang: ${OCR_DEFAULT_LANG:-en}
-      output_dir: ${OUTPUT_DIR:-/app/outputs}
-      DEBUG: ${DEBUG:-false}
-    volumes:
-      - ./outputs:/app/outputs
+      - SECRET_KEY=${SECRET_KEY}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+      - DATABASE_URL=${DATABASE_URL:-sqlite:////app/auth.db}
+      - OUTPUT_DIR=/app/outputs
     ports:
       - "8000:8000"
+    volumes:
+      - backend_outputs:/app/outputs
     restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      - VITE_API_URL=${VITE_API_URL:-http://localhost:8000}
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  backend_outputs:
+    driver: local
