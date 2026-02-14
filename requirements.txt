@@ -12,6 +12,8 @@ pydantic
 SQLAlchemy
 aiofiles
 requests
+python-jose[cryptography]
+passlib[bcrypt]
 ruff
 mypy
 pytest
