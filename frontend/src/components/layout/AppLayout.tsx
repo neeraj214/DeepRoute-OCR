@@ -3,8 +3,8 @@ import { Button } from "../ui/Button";
 
 type Props = {
   children: React.ReactNode;
-  onNavigate?: (page: 'home' | 'upload') => void;
-  currentPage?: 'home' | 'upload';
+  onNavigate?: (page: 'home' | 'upload' | 'login' | 'register') => void;
+  currentPage?: 'home' | 'upload' | 'login' | 'register';
 };
 
 const AppLayout: React.FC<Props> = ({ children, onNavigate, currentPage }) => {
@@ -45,10 +45,17 @@ const AppLayout: React.FC<Props> = ({ children, onNavigate, currentPage }) => {
           </div>
 
           <div className="flex items-center gap-10">
-            <button className="hidden sm:block text-sm font-semibold text-text-secondary hover:text-white transition-colors">
+            <button 
+              onClick={() => onNavigate?.('login')}
+              className="hidden sm:block text-sm font-semibold text-text-secondary hover:text-white transition-colors"
+            >
               Login
             </button>
-            <Button size="lg" className="bg-action-primary hover:bg-action-hover text-white rounded-xl px-8 py-3 text-sm font-bold shadow-[0_0_20px_rgba(99,102,241,0.4)] transition-all hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] ring-1 ring-white/20">
+            <Button 
+              onClick={() => onNavigate?.('register')}
+              size="lg" 
+              className="bg-action-primary hover:bg-action-hover text-white rounded-xl px-8 py-3 text-sm font-bold shadow-[0_0_20px_rgba(99,102,241,0.4)] transition-all hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] ring-1 ring-white/20"
+            >
               Sign Up
             </Button>
           </div>
