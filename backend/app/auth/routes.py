@@ -7,6 +7,12 @@ from .schemas import UserCreate, UserRead, Token
 from .models import User
 from .auth_utils import get_password_hash, verify_password, create_access_token
 from .dependencies import get_db, get_current_active_user, TOKEN_BLACKLIST
+from time import time
+
+# Simple in-memory rate limiter for login: max 10 attempts per 60s per IP
+LOGIN_ATTEMPTS: dict[str, list[float]] = {}
+LOGIN_WINDOW_SEC = 60
+LOGIN_MAX_ATTEMPTS = 10
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -28,7 +34,16 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)) -> Any:
     return UserRead(id=user.id, email=user.email, full_name=user.full_name, role=user.role, is_active=user.is_active)
 
 @router.post("/login", response_model=Token)
-def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)) -> Any:
+def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db), request: Request = None) -> Any:
+    if request:
+        ip = request.client.host if request.client else "unknown"
+        attempts = LOGIN_ATTEMPTS.get(ip, [])
+        now = time()
+        attempts = [t for t in attempts if now - t < LOGIN_WINDOW_SEC]
+        if len(attempts) >= LOGIN_MAX_ATTEMPTS:
+            raise HTTPException(status_code=status.HTTP_429_TOO_MANY_REQUESTS, detail="Too many login attempts")
+        attempts.append(now)
+        LOGIN_ATTEMPTS[ip] = attempts
     user = db.query(User).filter(User.email == form_data.username).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
