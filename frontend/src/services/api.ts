@@ -29,7 +29,7 @@ export function isTokenExpired(token: string): boolean {
 }
 
 export const api = axios.create({
-  baseURL: API_BASE,
+  baseURL: `${API_BASE}/api`,
 });
 
 api.interceptors.request.use((config) => {
@@ -69,3 +69,12 @@ export function logout() {
   return Promise.resolve();
 }
 
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error?.response?.status === 401) {
+      setToken(null);
+    }
+    return Promise.reject(error);
+  }
+);
