@@ -26,3 +26,4 @@ jiwer
 transformers
 scikit-learn
 datasets
+streamlit
