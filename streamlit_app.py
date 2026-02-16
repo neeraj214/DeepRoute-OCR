@@ -76,78 +76,25 @@ def main() -> None:
     st.markdown(
         """
         <style>
-        .auth-card {
-            max-width: 800px;
-            margin: 3rem auto;
+        .auth-panel {
             border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-            overflow: hidden;
-            display: flex;
-            min-height: 420px;
+            box-shadow: 0 18px 35px rgba(0,0,0,0.08);
+            padding: 32px 36px;
             background: #ffffff;
         }
-        .auth-left {
-            flex: 1;
-            padding: 40px 48px;
-            background: #ffffff;
-        }
-        .auth-right {
-            flex: 1;
-            padding: 40px 48px;
+        .auth-panel-gradient {
             background: linear-gradient(135deg, #ff416c, #ff4b2b);
             color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            text-align: left;
         }
-        .auth-title {
-            font-size: 28px;
+        .auth-heading {
+            font-size: 26px;
             font-weight: 700;
-            margin-bottom: 24px;
+            margin-bottom: 12px;
         }
-        .auth-subtitle {
+        .auth-text {
             font-size: 14px;
             color: #777;
-            margin-bottom: 16px;
-        }
-        .auth-input label {
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            display: block;
-        }
-        .auth-input input {
-            width: 100%;
-            padding: 10px 12px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 14px;
-        }
-        .auth-button-primary {
-            border-radius: 50px;
-            padding: 10px 32px;
-            border: none;
-            background: #ff4b2b;
-            color: #ffffff;
-            font-weight: 600;
-            font-size: 14px;
-        }
-        .auth-button-primary:hover {
-            background: #ff416c;
-        }
-        .auth-right button {
-            border-radius: 50px;
-            padding: 10px 32px;
-            border: 2px solid #ffffff;
-            background: transparent;
-            color: #ffffff;
-            font-weight: 600;
-            font-size: 14px;
-        }
-        .auth-right button:hover {
-            background: rgba(255,255,255,0.15);
+            margin-bottom: 20px;
         }
         </style>
         """,
@@ -163,68 +110,59 @@ def main() -> None:
         unsafe_allow_html=True,
     )
 
-    col1, col2 = st.columns([2, 1])
-    with col1:
-        st.markdown("<div class='auth-card'>", unsafe_allow_html=True)
-        st.markdown("<div class='auth-left'>", unsafe_allow_html=True)
+    main_left, main_right = st.columns([2, 1])
 
-        st.markdown("<div class='auth-title'>Sign in</div>", unsafe_allow_html=True)
-        st.markdown(
-            "<div class='auth-subtitle'>Use your email and password to sign in.</div>",
-            unsafe_allow_html=True,
-        )
+    with main_left:
+        left_col, right_col = st.columns(2)
 
-        with st.form("login_form"):
-            st.markdown("<div class='auth-input'>", unsafe_allow_html=True)
-            log_email = st.text_input("Email", key="log_email")
+        with left_col:
+            st.markdown("<div class='auth-panel'>", unsafe_allow_html=True)
+            st.markdown("<div class='auth-heading'>Sign in</div>", unsafe_allow_html=True)
+            st.markdown(
+                "<div class='auth-text'>Use your email and password to sign in.</div>",
+                unsafe_allow_html=True,
+            )
+
+            with st.form("login_form"):
+                log_email = st.text_input("Email", key="log_email")
+                log_password = st.text_input("Password", type="password", key="log_password")
+                submitted_login = st.form_submit_button("Sign in")
+                if submitted_login:
+                    do_login(log_email, log_password)
+
+            if st.session_state.get("token"):
+                if st.button("Logout"):
+                    do_logout()
+
             st.markdown("</div>", unsafe_allow_html=True)
 
-            st.markdown("<div class='auth-input'>", unsafe_allow_html=True)
-            log_password = st.text_input("Password", type="password", key="log_password")
+        with right_col:
+            st.markdown("<div class='auth-panel auth-panel-gradient'>", unsafe_allow_html=True)
+            st.markdown(
+                "<div class='auth-heading'>Hello, Friend!</div>",
+                unsafe_allow_html=True,
+            )
+            st.markdown(
+                "<div class='auth-text' style='color: rgba(255,255,255,0.9);'>Enter your personal details and start your journey with us.</div>",
+                unsafe_allow_html=True,
+            )
+
+            with st.form("register_form"):
+                reg_email = st.text_input("Email", key="reg_email")
+                reg_name = st.text_input("Full name", key="reg_name")
+                reg_password = st.text_input("Password", type="password", key="reg_password")
+                submitted = st.form_submit_button("Sign up")
+                if submitted:
+                    do_register(reg_email, reg_password, reg_name)
+
             st.markdown("</div>", unsafe_allow_html=True)
 
-            submitted_login = st.form_submit_button("Sign in")
-            if submitted_login:
-                do_login(log_email, log_password)
-
-        if st.session_state.get("token"):
-            if st.button("Logout"):
-                do_logout()
-
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        st.markdown("<div class='auth-right'>", unsafe_allow_html=True)
-        st.markdown("<div style='font-size:26px;font-weight:700;margin-bottom:12px;'>Hello, Friend!</div>", unsafe_allow_html=True)
-        st.markdown(
-            "<p style='font-size:14px;opacity:0.9;margin-bottom:24px;'>Enter your personal details and start your journey with us.</p>",
-            unsafe_allow_html=True,
-        )
-        with st.form("register_form"):
-            reg_email = st.text_input("Email", key="reg_email")
-            reg_name = st.text_input("Full name", key="reg_name")
-            reg_password = st.text_input("Password", type="password", key="reg_password")
-            submitted = st.form_submit_button("Sign up")
-            if submitted:
-                do_register(reg_email, reg_password, reg_name)
-        st.markdown("</div>", unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    with col2:
+    with main_right:
         st.subheader("Upload and OCR")
         if not st.session_state.get("token"):
             st.info("You must login before uploading documents.")
             return
 
-        file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
-        if st.button("Run OCR"):
-            do_ocr(file)
-
-    with upload_tab:
-        if not st.session_state.get("token"):
-            st.info("You must login before uploading documents.")
-            return
-
-        st.subheader("Upload Document")
         file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
         if st.button("Run OCR"):
             do_ocr(file)

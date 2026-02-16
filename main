@@ -1,0 +1,89 @@
+[33mcommit 26710b254fa666d80511eaf3b82c274676d6cdb6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: NeerajNegi <neerajnegi108333@gmail.com>
+Date:   Wed Feb 11 22:27:13 2026 +0530
+
+    Test: Update post-processing tests for Enterprise OCR features
+
+[33mcommit 88198707f430dbeeb9beb6109e90f25f159b10aa[m
+Author: NeerajNegi <neerajnegi108333@gmail.com>
+Date:   Wed Feb 11 22:26:58 2026 +0530
+
+    Phase B: Enhance image preprocessing with deskew, CLAHE, and denoising
+
+[33mcommit 231d04445dc0c6cc415634f2733e6b8d289cb9f7[m
+Author: NeerajNegi <neerajnegi108333@gmail.com>
+Date:   Wed Feb 11 22:26:47 2026 +0530
+
+    Phase C: Define Enterprise OCR response schemas
+
+[33mcommit cf45d24dd3117f02f2c5a3b79f770f12464aae3c[m
+Author: NeerajNegi <neerajnegi108333@gmail.com>
+Date:   Wed Feb 11 22:26:29 2026 +0530
+
+    Phase B & C: Implement ensemble strategy and standardized output in unified OCR
+
+[33mcommit e6f5cacb20f54c92a2a66d1ed3157e8e69993a34[m
+Author: NeerajNegi <neerajnegi108333@gmail.com>
+Date:   Wed Feb 11 22:26:18 2026 +0530
+
+    Phase B: Add confidence scoring to TrOCR pipeline
+
+[33mcommit e1466752af97562533c65966f5ea9998de6287a2[m
+Author: NeerajNegi <neerajnegi108333@gmail.com>
+Date:   Wed Feb 11 22:26:02 2026 +0530
+
+    Phase A: Strengthen post-OCR validation and numeric consistency engine
+
+[33mcommit 0da8277b2a2907ccff5bade990dab38fa7673af7[m
+Author: NeerajNegi <neerajnegi108333@gmail.com>
+Date:   Wed Feb 11 22:25:51 2026 +0530
+
+    Phase A: Add strict regex patterns for financial fields
+
+[33mcommit 61281d2be6221c8e8f9cff5e18146396603beeb2[m
+Author: NeerajNegi <neerajnegi108333@gmail.com>
+Date:   Wed Feb 11 22:25:41 2026 +0530
+
+    Phase A: Implement special character recovery in extractor
+
+[33mcommit d87c60e248235147b06f6824489ed276a2867f91[m
+Author: NeerajNegi <neerajnegi108333@gmail.com>
+Date:   Wed Feb 11 22:25:29 2026 +0530
+
+    Phase C: Add field-level accuracy metrics to evaluation
+
+[33mcommit 2a0d942dc0f93fc7da4d14633785007f041257fa[m
+Author: NeerajNegi <neerajnegi108333@gmail.com>
+Date:   Wed Feb 11 22:07:27 2026 +0530
+
+    docs_update_readme_with_phase_3c_structured_validation
+
+[33mcommit decbffeb484146c4b1a080c62025d4a8b2cd358b[m
+Author: NeerajNegi <neerajnegi108333@gmail.com>
+Date:   Wed Feb 11 22:06:50 2026 +0530
+
+    feat_add_postprocessing_unit_tests
+
+[33mcommit 833f8dabd2a8ae1dcda875f96d8c8ad9b0bb8a62[m
+Author: NeerajNegi <neerajnegi108333@gmail.com>
+Date:   Wed Feb 11 22:06:19 2026 +0530
+
+    feat_add_structured_evaluation_script
+
+[33mcommit 9f894f391397eb052e05573d146c68127cab23fc[m
+Author: NeerajNegi <neerajnegi108333@gmail.com>
+Date:   Wed Feb 11 22:05:41 2026 +0530
+
+    feat_integrate_postprocessing_into_unified_ocr
+
+[33mcommit 9e629bd7a095cb0acac221a70712dd641c498990[m
+Author: NeerajNegi <neerajnegi108333@gmail.com>
+Date:   Wed Feb 11 22:05:00 2026 +0530
+
+    feat_postprocessing_field_validator_with_math_check
+
+[33mcommit 83d590d8d6944500e9bfe89dccb94ae5012ff8e6[m
+Author: NeerajNegi <neerajnegi108333@gmail.com>
+Date:   Wed Feb 11 22:04:28 2026 +0530
+
+    feat_postprocessing_field_extractor_with_heuristics
